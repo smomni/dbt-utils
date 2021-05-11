@@ -1,6 +1,6 @@
-{% macro test_unique_combination_of_columns(model, quote_columns = false) %}
-  {{ return(adapter.dispatch('test_unique_combination_of_columns', packages = dbt_utils._get_utils_namespaces())(model, quote_columns, **kwargs)) }}
-{% endmacro %}
+{% test unique_combination_of_columns(model, combination_of_columns, quote_columns=false) %}
+  {{ return(adapter.dispatch('test_unique_combination_of_columns', packages = dbt_utils._get_utils_namespaces())(model, combination_of_columns, quote_columns)) }}
+{% endtest %}
 
 {% macro default__test_unique_combination_of_columns(model, quote_columns = false) %}
 
@@ -27,13 +27,12 @@ with validation_errors as (
     select
         {{ columns_csv }}
     from {{ model }}
-
     group by {{ columns_csv }}
     having count(*) > 1
 
 )
 
-select count(*)
+select *
 from validation_errors
 
 
