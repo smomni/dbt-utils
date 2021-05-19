@@ -5,9 +5,7 @@ select * from {{ model }} where {{ actual }} != {{ expected }}
 {% endtest %}
 
 
-{% test not_empty_string(model, arg) %}
-
-{% set column_name = kwargs.get('column_name', kwargs.get('arg')) %}
+{% test not_empty_string(model, column_name) %}
 
 select * from {{ model }} where {{ column_name }} = ''
 

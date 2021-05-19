@@ -1,10 +1,8 @@
 {% test unique_combination_of_columns(model, combination_of_columns, quote_columns=false) %}
-  {{ return(adapter.dispatch('test_unique_combination_of_columns', packages = dbt_utils._get_utils_namespaces())(model, combination_of_columns, quote_columns)) }}
+  {{ return(adapter.dispatch('test_unique_combination_of_columns', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
 {% endtest %}
 
-{% macro default__test_unique_combination_of_columns(model, quote_columns = false) %}
-
-{%- set columns = kwargs.get('combination_of_columns', kwargs.get('arg')) %}
+{% macro default__test_unique_combination_of_columns(model, combination_of_columns, quote_columns=false) %}
 
 {% if not quote_columns %}
     {%- set column_list=columns %}

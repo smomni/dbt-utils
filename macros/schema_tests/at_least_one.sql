@@ -1,10 +1,8 @@
-{% test at_least_one(model) %}
-  {{ return(adapter.dispatch('test_at_least_one', packages = dbt_utils._get_utils_namespaces())(model, **kwargs)) }}
+{% test at_least_one(model, column_name) %}
+  {{ return(adapter.dispatch('test_at_least_one', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
 {% endtest %}
 
-{% macro default__test_at_least_one(model) %}
-
-{% set column_name = kwargs.get('column_name', kwargs.get('arg')) %}
+{% macro default__test_at_least_one(model, column_name) %}
 
 select *
 from (

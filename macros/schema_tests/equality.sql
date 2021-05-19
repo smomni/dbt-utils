@@ -1,8 +1,8 @@
-{% test equality(model) %}
-  {{ return(adapter.dispatch('test_equality', packages = dbt_utils._get_utils_namespaces())(model, **kwargs)) }}
+{% test equality(model, compare_model, compare_columns=None) %}
+  {{ return(adapter.dispatch('test_equality', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
 {% endtest %}
 
-{% macro default__test_equality(model) %}
+{% macro default__test_equality(model, compare_model, compare_columns=None) %}
 
 
 {#-- Prevent querying of db in parsing mode. This works because this macro does not create any new refs. #}
@@ -17,14 +17,12 @@
 If the compare_cols arg is provided, we can run this test without querying the
 information schema — this allows the model to be an ephemeral model
 -#}
-{%- set compare_columns = kwargs.get('compare_columns', None) -%}
 
 {%- if not compare_columns -%}
     {%- do dbt_utils._is_ephemeral(model, 'test_equality') -%}
     {%- set compare_columns = adapter.get_columns_in_relation(model) | map(attribute='quoted') -%}
 {%- endif -%}
 
-{% set compare_model = kwargs.get('compare_model', kwargs.get('arg')) %}
 {% set compare_cols_csv = compare_columns | join(', ') %}
 
 with a as (

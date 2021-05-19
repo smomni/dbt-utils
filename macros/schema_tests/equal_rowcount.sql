@@ -1,10 +1,8 @@
-{% test equal_rowcount(model) %}
-  {{ return(adapter.dispatch('test_equal_rowcount', packages = dbt_utils._get_utils_namespaces())(model, **kwargs)) }}
+{% test equal_rowcount(model, compare_model) %}
+  {{ return(adapter.dispatch('test_equal_rowcount', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
 {% endtest %}
 
-{% macro default__test_equal_rowcount(model) %}
-
-{% set compare_model = kwargs.get('compare_model', kwargs.get('arg')) %}
+{% macro default__test_equal_rowcount(model, compare_model) %}
 
 {#-- Prevent querying of db in parsing mode. This works because this macro does not create any new refs. #}
 {%- if not execute -%}

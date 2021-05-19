@@ -1,10 +1,8 @@
-{% test fewer_rows_than(model) %}
-  {{ return(adapter.dispatch('test_fewer_rows_than', packages = dbt_utils._get_utils_namespaces())(model, combination_of_columns, quote_columns, where)) }}
+{% test fewer_rows_than(model, compare_model) %}
+  {{ return(adapter.dispatch('test_fewer_rows_than', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
 {% endtest %}
 
-{% macro default__test_fewer_rows_than(model) %}
-
-{% set compare_model = kwargs.get('compare_model', kwargs.get('arg')) %}
+{% macro default__test_fewer_rows_than(model, compare_model) %}
 
 with a as (
 
