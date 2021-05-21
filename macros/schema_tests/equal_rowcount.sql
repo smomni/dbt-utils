@@ -1,5 +1,5 @@
 {% test equal_rowcount(model, compare_model) %}
-  {{ return(adapter.dispatch('test_equal_rowcount', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
+  {{ return(adapter.dispatch('test_equal_rowcount', packages = dbt_utils._get_utils_namespaces())(model, compare_model)) }}
 {% endtest %}
 
 {% macro default__test_equal_rowcount(model, compare_model) %}

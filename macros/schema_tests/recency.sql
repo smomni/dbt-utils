@@ -1,14 +1,14 @@
-{% test recency(model, column_name, datepart, interval) %}
-  {{ return(adapter.dispatch('test_recency', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
+{% test recency(model, field, datepart, interval) %}
+  {{ return(adapter.dispatch('test_recency', packages = dbt_utils._get_utils_namespaces())(model, field, datepart, interval)) }}
 {% endtest %}
 
-{% macro default__test_recency(model, datepart, interval) %}
+{% macro default__test_recency(model, field, datepart, interval) %}
 
 {% set threshold = dbt_utils.dateadd(datepart, interval * -1, dbt_utils.current_timestamp()) %}
 
 with recency as (
 
-    select max({{column_name}}) as most_recent
+    select max({{field}}) as most_recent
     from {{ model }}
 
 )

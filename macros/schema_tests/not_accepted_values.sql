@@ -1,8 +1,8 @@
 {% test not_accepted_values(model, column_name, values, quote=True) %}
-  {{ return(adapter.dispatch('test_fewer_rows_than', packages = dbt_utils._get_utils_namespaces())(**kwargs)) }}
+  {{ return(adapter.dispatch('test_not_accepted_values', packages = dbt_utils._get_utils_namespaces())(model, column_name, values, quote)) }}
 {% endtest %}
 
-{% macro test_not_accepted_values(model, column_name, values, quote=True) %}
+{% macro default__test_not_accepted_values(model, column_name, values, quote=True) %}
 with all_values as (
 
     select distinct
@@ -20,7 +20,7 @@ validation_errors as (
     from all_values
     where value_field in (
         {% for value in values -%}
-            {% if quote_values -%}
+            {% if quote -%}
             '{{ value }}'
             {%- else -%}
             {{ value }}
